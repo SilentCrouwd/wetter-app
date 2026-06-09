@@ -1,0 +1,115 @@
+.btn {
+  cursor: pointer;
+  &--back,
+  &--favorit {
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.svg {
+  width: 2rem;
+  fill: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__current-info {
+  margin-top: 3rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.current-info {
+  &__city-name {
+    font-size: 2rem;
+  }
+  &__temperature {
+    font-size: 5rem;
+  }
+}
+.main__daily-info {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  border-radius: 5px;
+  width: 90%;
+  padding: 0.5rem;
+  background-color: $box-color;
+  backdrop-filter: $backdrop;
+  box-shadow: $primary-box-schadow;
+}
+.daily-info {
+  &__today {
+    padding: 0.5rem;
+    border-bottom: $border;
+  }
+  &__card {
+    min-width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    scrollbar-width: none;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+  }
+}
+.card {
+  min-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.5rem;
+
+  &__hour {
+    width: fit-content;
+    text-align: center;
+  }
+}
+
+.main__forecast {
+  @extend .main__daily-info;
+}
+.forecast {
+  &__headline {
+    @extend .daily-info__today;
+  }
+  &__days {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: $border;
+  }
+}
+.main__additional {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 90%;
+  margin-top: 1.5rem;
+}
+
+.additional {
+  @extend .main__daily-info;
+  margin-top: 1rem;
+
+  &__headline {
+    text-align: center;
+    padding: 0.5rem;
+  }
+  &__body {
+    @extend .additional__headline;
+  }
+}

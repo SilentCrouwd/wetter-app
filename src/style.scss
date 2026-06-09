@@ -1,89 +1,25 @@
 @use "variables" as *;
-
+@import "detailview";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 * {
   padding: 0;
+  font-family: "Inter", sans-serif;
   margin: 0;
   box-sizing: border-box;
 }
-body,
-html {
-  height: 100vh;
+body {
+  min-height: 100vh;
   color: $primary-text-color;
-}
-
-.btn {
-  cursor: pointer;
-  &--back,
-  &--favorit {
-    background-color: transparent;
-    border: none;
-  }
-}
-
-.svg {
-  width: 2rem;
-}
-
-.header {
+  background-color: gray;
   display: flex;
-  justify-content: space-between;
-  margin: 0.5rem;
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.main__main-info {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  text-align: center;
-}
-.main-info {
-  &__city-name {
-    font-size: 2rem;
-  }
-  &__temperature {
-    font-size: 5rem;
-  }
-}
-.main__daily-info {
-  font-size: 1.2rem;
-  margin-top: 1.5rem;
-  border-radius: 5px;
-  width: 90%;
-  padding: 0.5rem;
-  gap: 0.5rem;
-  box-shadow: $primary-box-schadow;
-}
-.daily-info {
-  &__today {
-    padding: 0.5rem;
-    border-bottom: solid 1px $primary-border-color;
-  }
-  &__report {
-    min-width: 100%;
-    padding: 0.5rem;
-    display: flex;
-    gap: 0.2rem;
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-  }
-}
-.report-display {
-  min-width: fit-content;
-
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.5rem;
+}
 
-  &__hour {
-    width: fit-content;
-    text-align: center;
-  }
+.app {
+  background-image: url(assets/himmel.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  max-width: 400px;
 }
