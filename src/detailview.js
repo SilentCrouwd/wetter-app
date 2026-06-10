@@ -1,20 +1,34 @@
-import { getWetherData } from "./api";
+import {
+  cityName,
+  conditionImg,
+  currCondition,
+  forecastHour,
+  getTimeHour,
+  getWetherData,
+  maxTemp,
+  maxWind,
+  minTemp,
+} from "./api";
 
-export async function getCurrentInfo() {
-  const currWetherData = await getWetherData();
-
+export function getCurrentInfo() {
   const currInfoContainer = document.querySelector(".main__current-info");
+  const appContainerEL = document.querySelector(".app");
+
+  // Hier noch variable übergeben und automatisch bild setzen
+
+  appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/day/${currCondition.replace(/\s+/g, "")}.jpg")`;
+
   let html = "";
 
   html = `
 
-          <p class="current-info__city-name">${currWetherData.location.name}</p>
+          <p class="current-info__city-name">${cityName}</p>
           <p class="current-info__temperature">
-            ${currWetherData.current.temp_c}<span class="span--deg">&deg;</span>
+            ${maxTemp}<span class="span--deg">&deg;</span>
           </p>
-          <p class="current-info__wether-status">${currWetherData.current.condition.text}</p>
+          <p class="current-info__wether-status">${currCondition}</p>
           <p class="current-info__average-temperatur">
-            H:${currWetherData.current.heatindex_c}<span class="span--deg">&deg;</span>---T:${currWetherData.current.dewpoint_c}<span
+            H:${minTemp}<span class="span--deg">&deg;</span>---T:${minTemp}<span
               class="span--deg"
               >&deg;</span
             >
@@ -24,3 +38,29 @@ export async function getCurrentInfo() {
 
   currInfoContainer.innerHTML = html;
 }
+export function getDailyForecast() {
+  const dailyOverviewCard = document.querySelector(".daily-info__card");
+  const dailyOverviewBox = document.querySelector(".daily-info__today");
+
+  const forecastHours = getTimeHour();
+
+  dailyOverviewBox.textContent = `${currCondition}, Wind bis zu ${maxWind}km/h`;
+  let html = "";
+
+  forecastHour.forEach((element, index) => {
+    html += `
+   <div class="card">
+              <p class="card__hour">${forecastHours[index]} Uhr</p>
+              <img class="card__img" src="${element.condition.icon}" alt="s" />
+              <p class="card__temperature">
+                ${element.temp_c}<span class="span--deg">&deg;</span>
+              </p>
+            </div>
+  
+  
+  `;
+    dailyOverviewCard.innerHTML = html;
+  });
+}
+
+function formatTime() {}
