@@ -21,5 +21,11 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  max-width: 400px;
+  width: 100%;
+}
+
+@media (min-width: 700px) {
+  .app {
+    width: 400px;
+  }
 }
