@@ -23,12 +23,4 @@ export const forecastHour = wetherVariables.forecast.forecastday[0].hour;
 
 export const conditionImg = wetherVariables.current.condition.icon;
 export const maxWind = wetherVariables.forecast.forecastday[0].day.maxwind_kph;
-
-export function getTimeHour() {
-  const timeHours = [];
-  forecastHour.forEach((element) => {
-    const unformatted = new Date(element.time);
-    timeHours.push(unformatted.getHours());
-  });
-  return timeHours;
-}
+export const isDay = wetherVariables.current.is_day;
