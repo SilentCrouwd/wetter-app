@@ -2,7 +2,10 @@ import {
   cityName,
   conditionImg,
   currCondition,
+  forecastday,
   forecastHour,
+  getFutureDates,
+  getFutureWetherData,
   getWetherData,
   isDay,
   maxTemp,
@@ -81,5 +84,36 @@ function setBackgroundImg() {
     appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/regen.jpg")`;
   } else {
     appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/default.jpg")`;
+  }
+}
+
+export async function forecastThreeDays() {
+  const forecastContainerEL = document.querySelector(".forecast__days");
+
+  let html = "";
+
+  for (let i = 0; i < 3; i++) {
+    const newDateEL = await getFutureWetherData(getFutureDates(i));
+    console.log(newDateEL);
+    html += `
+
+<div class="forecast__card">
+              <p class="forecast__day">${new Date(newDateEL.forecast.forecastday[0].date).toLocaleDateString("de-DE", { weekday: "short" })}</p>
+              <img src="${newDateEL.forecast.forecastday[0].day.condition.icon}" alt="s" class="card__img" />
+              <p class="forecast__average-temp">
+                <span
+                  class="forecast__average-temp forecast__average-temp--heigh"
+                  >H:${newDateEL.forecast.forecastday[0].day.maxtemp_c}&deg;</span
+                >
+                <span class="forecast__average-temp forecast__average-temp--low"
+                  >T:${newDateEL.forecast.forecastday[0].day.mintemp_c}&deg;</span
+                >
+              </p>
+              <p class="forecast__wind">Wind: ${newDateEL.forecast.forecastday[0].day.maxwind_kph} Km/h</p>
+            </div>
+
+`;
+
+    forecastContainerEL.innerHTML = html;
   }
 }
