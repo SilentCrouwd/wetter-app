@@ -18,6 +18,11 @@ import schneeDay from "./assets/conditionImages/day/schnee.jpg";
 import bewoelktDay from "./assets/conditionImages/day/cloudy.jpg";
 import defaultDay from "./assets/conditionImages/day/default.jpg";
 
+import regenNight from "./assets/conditionImages/night/regen.jpg";
+import schneeNight from "./assets/conditionImages/night/schnee.jpg";
+import bewoelktNight from "./assets/conditionImages/night/cloudy.jpg";
+import defaultNight from "./assets/conditionImages/night/default.jpg";
+
 export function getCurrentInfo() {
   const currInfoContainer = document.querySelector(".main__current-info");
   // const currCondition = "Teilweise bewölkt";
@@ -67,27 +72,56 @@ export function getDailyForecast() {
 
 function setBackgroundImg() {
   const appContainerEL = document.querySelector(".app");
-
+  const dayTime = isDay === 1;
   if (currCondition.includes("Teilweise bewölkt")) {
-    appContainerEL.style.backgroundImage = `url(${defaultDay})`;
+    appContainerEL.style.backgroundImage = dayTime
+      ? `url(${defaultDay})`
+      : `url(${defaultNight})`;
   } else if (["Sonnig", "Klar"].includes(currCondition)) {
-    appContainerEL.style.backgroundImage = `url(${sonnigDay})`;
+    appContainerEL.style.backgroundImage = dayTime
+      ? `url(${sonnigDayDay})`
+      : `url(${defaultNight})`;
   } else if (["Gewitter", "bedeckt"].includes(currCondition)) {
-    appContainerEL.style.backgroundImage = `url(${regenDay})`;
+    appContainerEL.style.backgroundImage = dayTime
+      ? `url(${bewoelktDay})`
+      : `url(${bewoelktNight})`;
   } else if (currCondition.includes("Schnee")) {
-    appContainerEL.style.backgroundImage = `url(${schneeDay})`;
+    appContainerEL.style.backgroundImage = dayTime
+      ? `url(${schneeDay})`
+      : `url(${schneeNight})`;
   } else if (currCondition.includes("Regen")) {
-    appContainerEL.style.backgroundImage = `url(${regenDay})`;
+    appContainerEL.style.backgroundImage = dayTime
+      ? `url(${regenDay})`
+      : `url(${regenNight})`;
   } else {
     appContainerEL.style.backgroundImage = `url(${defaultDay})`;
   }
 
+  // const backgroundImageMappingDay = {
+  //   Sonnig: sonnigDay,
+  //   Klar: sonnigDay,
+  //   Gewitter: regenDay,
+  //   bedeckt: regenDay,
+  //   Schnee: schneeDay,
+  //   Regen: regenDay,
+  // };
 
-
-  
+  // const backgroundImageMappingNight = {
+  //   Gewitter: regenNight,
+  //   bedeckt: regenNight,
+  //   Schnee: schneeNight,
+  //   Regen: regenNight,
+  // };
+  // if (isDay === 1) {
+  //   const currBackground =
+  //     backgroundImageMappingDay[currCondition] || defaultDay;
+  //   appContainerEL.style.backgroundImage = `url(${currBackground})`;
+  // } else {
+  //   const currBackground =
+  //     backgroundImageMappingDay[currCondition] || defaultNight;
+  //   appContainerEL.style.backgroundImage = `url(${currBackground})`;
+  // }
 }
-
-
 
 export async function forecastThreeDays() {
   const forecastContainerEL = document.querySelector(".forecast__days");
