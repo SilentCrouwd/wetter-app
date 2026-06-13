@@ -12,6 +12,11 @@ import {
   maxWind,
   minTemp,
 } from "./api";
+import regenDay from "./assets/conditionImages/day/regen.jpg";
+import sonnigDay from "./assets/conditionImages/day/sunny.jpg";
+import schneeDay from "./assets/conditionImages/day/schnee.jpg";
+import bewoelktDay from "./assets/conditionImages/day/cloudy.jpg";
+import defaultDay from "./assets/conditionImages/day/default.jpg";
 
 export function getCurrentInfo() {
   const currInfoContainer = document.querySelector(".main__current-info");
@@ -63,29 +68,26 @@ export function getDailyForecast() {
 function setBackgroundImg() {
   const appContainerEL = document.querySelector(".app");
 
-  let path = "";
-  if (isDay) {
-    path = "day";
-    console.log(path);
+  if (currCondition.includes("Teilweise bewölkt")) {
+    appContainerEL.style.backgroundImage = `url(${defaultDay})`;
+  } else if (["Sonnig", "Klar"].includes(currCondition)) {
+    appContainerEL.style.backgroundImage = `url(${sonnigDay})`;
+  } else if (["Gewitter", "bedeckt"].includes(currCondition)) {
+    appContainerEL.style.backgroundImage = `url(${regenDay})`;
+  } else if (currCondition.includes("Schnee")) {
+    appContainerEL.style.backgroundImage = `url(${schneeDay})`;
+  } else if (currCondition.includes("Regen")) {
+    appContainerEL.style.backgroundImage = `url(${regenDay})`;
   } else {
-    path = "night";
-    console.log(path);
+    appContainerEL.style.backgroundImage = `url(${defaultDay})`;
   }
 
-  if (currCondition.includes("Teilweise bewölkt")) {
-    appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/default.jpg")`;
-  } else if (["Sonnig", "Klar"].includes(currCondition)) {
-    appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/sunny.jpg")`;
-  } else if (["Gewitter", "bedeckt"].includes(currCondition)) {
-    appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/cloudy.jpg")`;
-  } else if (currCondition.includes("Schnee")) {
-    appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/schnee.jpg")`;
-  } else if (currCondition.includes("Regen")) {
-    appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/regen.jpg")`;
-  } else {
-    appContainerEL.style.backgroundImage = ` url("wetter-app/src/assets/conditionImages/${path}/default.jpg")`;
-  }
+
+
+  
 }
+
+
 
 export async function forecastThreeDays() {
   const forecastContainerEL = document.querySelector(".forecast__days");
@@ -93,6 +95,7 @@ export async function forecastThreeDays() {
   let html = "";
 
   for (let i = 0; i < 3; i++) {
+    1;
     const newDateEL = await getFutureWetherData(getFutureDates(i));
     console.log(newDateEL);
     html += `
