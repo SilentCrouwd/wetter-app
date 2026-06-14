@@ -35,13 +35,23 @@ export const currCondition = wetherVariables.current.condition.text;
 export const maxTemp = wetherVariables.forecast.forecastday[0].day.maxtemp_c;
 // console.log(heatIndex);
 export const minTemp = wetherVariables.forecast.forecastday[0].day.mintemp_c;
-// console.log(dewpoint);
+
+// Foceracst Bock;
 export const forecastHour = wetherVariables.forecast.forecastday[0].hour;
 export const forecastday = wetherVariables.forecast.forecast;
 
 export const conditionImg = wetherVariables.current.condition.icon;
 export const maxWind = wetherVariables.forecast.forecastday[0].day.maxwind_kph;
 export const isDay = wetherVariables.current.is_day;
+
+//Aditional Data
+export const rainChance = wetherVariables.current.chance_of_rain;
+export const snowChance = wetherVariables.current.chance_of_snow;
+export const humidity = wetherVariables.current.humidity;
+export const feelLike = wetherVariables.current.feelslike_c;
+export const uvFactor = wetherVariables.current.uv;
+export const windDir = wetherVariables.current.wind_dir;
+//Uhrzeiten
 
 export function getFutureDates(add) {
   const currDate = new Date();

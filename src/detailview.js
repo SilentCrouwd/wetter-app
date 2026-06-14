@@ -2,15 +2,21 @@ import {
   cityName,
   conditionImg,
   currCondition,
+  feelLike,
   forecastday,
   forecastHour,
   getFutureDates,
   getFutureWetherData,
   getWetherData,
+  humidity,
   isDay,
   maxTemp,
   maxWind,
   minTemp,
+  rainChance,
+  snowChance,
+  uvFactor,
+  windDir,
 } from "./api";
 import regenDay from "./assets/conditionImages/day/regen.jpg";
 import sonnigDay from "./assets/conditionImages/day/sunny.jpg";
@@ -34,13 +40,13 @@ export function getCurrentInfo() {
 
           <p class="current-info__city-name">${cityName}</p>
           <p class="current-info__temperature">
-            ${maxTemp}<span class="span--deg">&deg;</span>
+            ${maxTemp}<span class="span--deg">&deg;C</span>
           </p>
           <p class="current-info__wether-status">${currCondition}</p>
           <p class="current-info__average-temperatur">
-            H:${maxTemp}<span class="span--deg">&deg;</span>---T:${minTemp}<span
+            H:${maxTemp}<span class="span--deg">&deg;C</span>---T:${minTemp}<span
               class="span--deg"
-              >&deg;</span
+              >&deg;C</span
             >
           </p>
 
@@ -60,7 +66,7 @@ export function getDailyForecast() {
               <p class="card__hour">${new Date(forecastHour[i].time).getHours()} Uhr</p>
               <img class="card__img" src="${forecastHour[i].condition.icon}" alt="s" />
               <p class="card__temperature">
-                ${forecastHour[i].temp_c}<span class="span--deg">&deg;</span>
+                ${forecastHour[i].temp_c}<span class="span--deg">&deg;C</span>
               </p>
             </div>
   
@@ -115,10 +121,10 @@ export async function forecastThreeDays() {
               <p class="forecast__average-temp">
                 <span
                   class="forecast__average-temp forecast__average-temp--heigh"
-                  >H:${newDateEL.forecast.forecastday[0].day.maxtemp_c}&deg;</span
+                  >H:${newDateEL.forecast.forecastday[0].day.maxtemp_c}&deg;C</span
                 >
                 <span class="forecast__average-temp forecast__average-temp--low"
-                  >T:${newDateEL.forecast.forecastday[0].day.mintemp_c}&deg;</span
+                  >T:${newDateEL.forecast.forecastday[0].day.mintemp_c}&deg;C</span
                 >
               </p>
               <p class="forecast__wind">Wind: ${newDateEL.forecast.forecastday[0].day.maxwind_kph} Km/h</p>
@@ -128,4 +134,37 @@ export async function forecastThreeDays() {
 
     forecastContainerEL.innerHTML = html;
   }
+}
+
+export function getAdditionalInfo() {
+  const additionalContainerEl = document.querySelector(".main__additional");
+
+  const additionalData = {
+    rainChance: { value: ` ${rainChance}&percnt;`, name: "Chance auf Regen" },
+
+    wind: { value: windDir, name: "Windrichtung" },
+    snowChance: {
+      value: `${snowChance}&percnt; `,
+      name: "Chance auf Schnee",
+    },
+    humidity: { value: `${humidity}&percnt;`, name: "Luftfeuchtigkeit" },
+
+    feelLike: { value: `${feelLike}&deg;C`, name: "gefühlt" },
+    uvFactor: { value: uvFactor, name: "UV Factor" },
+  };
+
+  let html = "";
+
+  Object.values(additionalData).forEach((elm) => {
+    html += `
+   <div class="additional">
+              <p class="additional__headline">${elm.name}</p>
+              <p class="additional__body">
+                <span class="additional__body--value">${elm.value} </span>
+              </p>
+            </div>
+  `;
+
+    additionalContainerEl.innerHTML = html;
+  });
 }
