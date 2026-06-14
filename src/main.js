@@ -9,5 +9,4 @@ import "./style.scss";
 
 getCurrentInfo();
 getDailyForecast();
-
 forecastThreeDays(); //

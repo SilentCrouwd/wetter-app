@@ -96,31 +96,6 @@ function setBackgroundImg() {
   } else {
     appContainerEL.style.backgroundImage = `url(${defaultDay})`;
   }
-
-  // const backgroundImageMappingDay = {
-  //   Sonnig: sonnigDay,
-  //   Klar: sonnigDay,
-  //   Gewitter: regenDay,
-  //   bedeckt: regenDay,
-  //   Schnee: schneeDay,
-  //   Regen: regenDay,
-  // };
-
-  // const backgroundImageMappingNight = {
-  //   Gewitter: regenNight,
-  //   bedeckt: regenNight,
-  //   Schnee: schneeNight,
-  //   Regen: regenNight,
-  // };
-  // if (isDay === 1) {
-  //   const currBackground =
-  //     backgroundImageMappingDay[currCondition] || defaultDay;
-  //   appContainerEL.style.backgroundImage = `url(${currBackground})`;
-  // } else {
-  //   const currBackground =
-  //     backgroundImageMappingDay[currCondition] || defaultNight;
-  //   appContainerEL.style.backgroundImage = `url(${currBackground})`;
-  // }
 }
 
 export async function forecastThreeDays() {

@@ -2,18 +2,27 @@ const API_ENDPOINT =
   "https://api.weatherapi.com/v1/forecast.json?key=86a979bdd40a47c6b58140058260806&q=salzhemmendorf&lang=de";
 
 export async function getWetherData() {
-  const response = await fetch(API_ENDPOINT);
-  const WetherDataCurrent = await response.json();
-  return WetherDataCurrent;
+  try {
+    const response = await fetch(API_ENDPOINT);
+    const WetherDataCurrent = await response.json();
+    return WetherDataCurrent;
+  } finally {
+    const loadingSpinnerEl = document.querySelector(".lds-spinner");
+
+    loadingSpinnerEl.classList.add("hidden");
+  }
 }
 
 export async function getFutureWetherData(date) {
-  const response = await fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=86a979bdd40a47c6b58140058260806&q=salzhemmendorf&dt=${date}&lang=de`,
-  );
-  const WetherDataFuture = await response.json();
+  try {
+    const response = await fetch(
+      `https://api.weatherapi.com/v1/forecast.json?key=86a979bdd40a47c6b58140058260806&q=salzhemmendorf&dt=${date}&lang=de`,
+    );
+    const WetherDataFuture = await response.json();
 
-  return WetherDataFuture;
+    return WetherDataFuture;
+  } finally {
+  }
 }
 
 const wetherVariables = await getWetherData();
