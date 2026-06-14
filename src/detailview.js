@@ -77,25 +77,35 @@ export function getDailyForecast() {
 }
 
 function setBackgroundImg() {
+  const formatedCondition = currCondition.toLowerCase();
   const appContainerEL = document.querySelector(".app");
   const dayTime = isDay === 1;
-  if (currCondition.includes("Teilweise bewölkt")) {
+  if (
+    currCondition.includes("bewölkt") ||
+    formatedCondition.includes("bedeckt")
+  ) {
     appContainerEL.style.backgroundImage = dayTime
       ? `url(${defaultDay})`
       : `url(${defaultNight})`;
-  } else if (["Sonnig", "Klar"].includes(currCondition)) {
+  } else if (
+    formatedCondition.includes("klar") ||
+    formatedCondition.includes("sonnig")
+  ) {
     appContainerEL.style.backgroundImage = dayTime
       ? `url(${sonnigDayDay})`
       : `url(${defaultNight})`;
-  } else if (["Gewitter", "bedeckt"].includes(currCondition)) {
+  } else if (formatedCondition.includes("gewitter")) {
     appContainerEL.style.backgroundImage = dayTime
       ? `url(${bewoelktDay})`
       : `url(${bewoelktNight})`;
-  } else if (currCondition.includes("Schnee")) {
+  } else if (formatedCondition.includes("schnee")) {
     appContainerEL.style.backgroundImage = dayTime
       ? `url(${schneeDay})`
       : `url(${schneeNight})`;
-  } else if (currCondition.includes("Regen")) {
+  } else if (
+    formatedCondition.includes("regen") ||
+    formatedCondition.includes("niesel")
+  ) {
     appContainerEL.style.backgroundImage = dayTime
       ? `url(${regenDay})`
       : `url(${regenNight})`;
