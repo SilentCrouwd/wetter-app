@@ -142,7 +142,7 @@ function getDailyForecast(condition, maxWind, forecastHour) {
   for (let i = new Date().getHours(); i < forecastHour.length; i++) {
     html += `
    <div class="card">
-              <p class="card__hour">${new Date(forecastHour[i].time).getHours()} Uhr</p>
+              <p class="card__hour">${i === new Date().getHours() ? "jetzt" : new Date(forecastHour[i].time).getHours() + "uhr"} </p>
               <img class="card__img" src="${forecastHour[i].condition.icon}" alt="s" />
               <p class="card__temperature">
                 ${Math.floor(forecastHour[i].temp_c)}<span class="span--deg">&deg;C</span>
