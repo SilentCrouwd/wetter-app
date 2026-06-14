@@ -1,23 +1,4 @@
-import {
-  cityName,
-  conditionImg,
-  currCondition,
-  feelLike,
-  forecastday,
-  forecastHour,
-  getFutureDates,
-  getFutureWetherData,
-  getWetherData,
-  humidity,
-  isDay,
-  maxTemp,
-  maxWind,
-  minTemp,
-  rainChance,
-  snowChance,
-  uvFactor,
-  windDir,
-} from "./api";
+import { getWetherData } from "./api";
 import regenDay from "./assets/conditionImages/day/regen.jpg";
 import sonnigDay from "./assets/conditionImages/day/sunny.jpg";
 import schneeDay from "./assets/conditionImages/day/schnee.jpg";
@@ -29,10 +10,43 @@ import schneeNight from "./assets/conditionImages/night/schnee.jpg";
 import bewoelktNight from "./assets/conditionImages/night/cloudy.jpg";
 import defaultNight from "./assets/conditionImages/night/default.jpg";
 
-export function getCurrentInfo() {
+export async function renderDetailView(city) {
+  const wetherData = await getWetherData(city);
+  const { current, forecast, location } = wetherData;
+  const currForecast = forecast.forecastday[0];
+  getCurrentInfo(
+    location.name,
+    current.temp_c,
+    current.condition.text,
+    currForecast.day.maxtemp_c,
+    currForecast.day.mintemp_c,
+  );
+  setBackgroundImg(current.condition.text, current.is_day);
+  getDailyForecast(
+    current.condition.text,
+    currForecast.day.maxwind_kph,
+    currForecast.hour,
+  );
+
+  forecastThreeDays(forecast.forecastday);
+  getAdditionalInfo(
+    current.chance_of_rain,
+    current.wind_dir,
+    current.chance_of_snow,
+    current.humidity,
+    current.feelslike_c,
+    current.uv,
+  );
+}
+
+export function getCurrentInfo(
+  cityName,
+  temp,
+  currCondition,
+  maxTemp,
+  minTemp,
+) {
   const currInfoContainer = document.querySelector(".main__current-info");
-  // const currCondition = "Teilweise bewölkt";
-  setBackgroundImg();
 
   let html = "";
 
@@ -40,11 +54,11 @@ export function getCurrentInfo() {
 
           <p class="current-info__city-name">${cityName}</p>
           <p class="current-info__temperature">
-            ${maxTemp}<span class="span--deg">&deg;C</span>
+            ${Math.floor(temp)}<span class="span--deg">&deg;C</span>
           </p>
           <p class="current-info__wether-status">${currCondition}</p>
           <p class="current-info__average-temperatur">
-            H:${maxTemp}<span class="span--deg">&deg;C</span>---T:${minTemp}<span
+            H:${Math.floor(maxTemp)}<span class="span--deg">&deg;C</span>---T:${Math.floor(minTemp)}<span
               class="span--deg"
               >&deg;C</span
             >
@@ -54,11 +68,11 @@ export function getCurrentInfo() {
 
   currInfoContainer.innerHTML = html;
 }
-export function getDailyForecast() {
+function getDailyForecast(condition, maxWind, forecastHour) {
   const dailyOverviewCard = document.querySelector(".daily-info__card");
   const dailyOverviewBox = document.querySelector(".daily-info__today");
 
-  dailyOverviewBox.textContent = `${currCondition}, Wind bis zu ${maxWind}km/h`;
+  dailyOverviewBox.textContent = `${condition}, Wind bis zu ${maxWind}km/h`;
   let html = "";
   for (let i = new Date().getHours(); i < forecastHour.length; i++) {
     html += `
@@ -66,22 +80,21 @@ export function getDailyForecast() {
               <p class="card__hour">${new Date(forecastHour[i].time).getHours()} Uhr</p>
               <img class="card__img" src="${forecastHour[i].condition.icon}" alt="s" />
               <p class="card__temperature">
-                ${forecastHour[i].temp_c}<span class="span--deg">&deg;C</span>
+                ${Math.floor(forecastHour[i].temp_c)}<span class="span--deg">&deg;C</span>
               </p>
             </div>
-  
-  
+
   `;
     dailyOverviewCard.innerHTML = html;
   }
 }
 
-function setBackgroundImg() {
-  const formatedCondition = currCondition.toLowerCase();
+function setBackgroundImg(condition, isDay) {
+  const formatedCondition = condition.toLowerCase();
   const appContainerEL = document.querySelector(".app");
   const dayTime = isDay === 1;
   if (
-    currCondition.includes("bewölkt") ||
+    formatedCondition.includes("bewölkt") ||
     formatedCondition.includes("bedeckt")
   ) {
     appContainerEL.style.backgroundImage = dayTime
@@ -114,39 +127,41 @@ function setBackgroundImg() {
   }
 }
 
-export async function forecastThreeDays() {
+function forecastThreeDays(dayForecast) {
   const forecastContainerEL = document.querySelector(".forecast__days");
 
   let html = "";
-
-  for (let i = 0; i < 3; i++) {
-    1;
-    const newDateEL = await getFutureWetherData(getFutureDates(i));
-    console.log(newDateEL);
+  dayForecast.forEach((elm) => {
     html += `
 
 <div class="forecast__card">
-              <p class="forecast__day">${new Date(newDateEL.forecast.forecastday[0].date).toLocaleDateString("de-DE", { weekday: "short" })}</p>
-              <img src="${newDateEL.forecast.forecastday[0].day.condition.icon}" alt="s" class="card__img" />
+              <p class="forecast__day">${new Date(elm.date).toLocaleDateString("de-DE", { weekday: "short" })}</p>
+              <img src="${elm.day.condition.icon}" alt="s" class="card__img" />
               <p class="forecast__average-temp">
                 <span
                   class="forecast__average-temp forecast__average-temp--heigh"
-                  >H:${newDateEL.forecast.forecastday[0].day.maxtemp_c}&deg;C</span
+                  >H:${Math.floor(elm.day.maxtemp_c)}&deg;C</span
                 >
                 <span class="forecast__average-temp forecast__average-temp--low"
-                  >T:${newDateEL.forecast.forecastday[0].day.mintemp_c}&deg;C</span
+                  >T:${Math.floor(elm.day.mintemp_c)}&deg;C</span
                 >
               </p>
-              <p class="forecast__wind">Wind: ${newDateEL.forecast.forecastday[0].day.maxwind_kph} Km/h</p>
+              <p class="forecast__wind">Wind: ${elm.day.maxwind_kph} Km/h</p>
             </div>
 
 `;
-
-    forecastContainerEL.innerHTML = html;
-  }
+  });
+  forecastContainerEL.innerHTML = html;
 }
 
-export function getAdditionalInfo() {
+function getAdditionalInfo(
+  rainChance,
+  windDir,
+  snowChance,
+  humidity,
+  feelLike,
+  uvFactor,
+) {
   const additionalContainerEl = document.querySelector(".main__additional");
 
   const additionalData = {
@@ -159,7 +174,7 @@ export function getAdditionalInfo() {
     },
     humidity: { value: `${humidity}&percnt;`, name: "Luftfeuchtigkeit" },
 
-    feelLike: { value: `${feelLike}&deg;C`, name: "gefühlt" },
+    feelLike: { value: `${Math.floor(feelLike)}&deg;C`, name: "gefühlt" },
     uvFactor: { value: uvFactor, name: "UV Factor" },
   };
 

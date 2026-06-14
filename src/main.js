@@ -1,14 +1,5 @@
 import { getWetherData } from "./api";
-import {
-  forecastThreeDays,
-  getAdditionalInfo,
-  getCurrentInfo,
-  getDailyForecast,
-} from "./detailview";
+import { renderDetailView } from "./detailview";
 
 import "./style.scss";
-
-getCurrentInfo();
-getDailyForecast();
-forecastThreeDays();
-getAdditionalInfo();
+renderDetailView("lauenstein");
