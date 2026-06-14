@@ -1,6 +1,4 @@
 export async function getWetherData(city, days = 3) {
-  const loadingSpinnerEl = document.querySelector(".lds-spinner");
-  loadingSpinnerEl.classList.remove("hidden");
   try {
     const response = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=86a979bdd40a47c6b58140058260806&q=${city}&days=${days}&lang=de`,
@@ -13,6 +11,5 @@ export async function getWetherData(city, days = 3) {
     console.error(error);
     return null;
   } finally {
-    loadingSpinnerEl.classList.add("hidden");
   }
 }
