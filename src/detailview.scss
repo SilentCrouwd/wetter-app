@@ -111,11 +111,15 @@
 
 .additional {
   @extend .main__daily-info;
+
+  font-size: 1.1rem;
   margin-top: 1rem;
 
   &__headline {
     text-align: center;
     padding: 0.5rem;
+    line-height: 0.9rem;
+    hyphens: auto;
   }
   &__body {
     @extend .additional__headline;

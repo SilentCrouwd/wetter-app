@@ -15,6 +15,7 @@ export async function renderDetailView(city) {
   const wetherData = await getWetherData(city);
   const { current, forecast, location } = wetherData;
   const currForecast = forecast.forecastday[0];
+
   getAppContent();
   getCurrentInfo(
     location.name,
@@ -28,6 +29,7 @@ export async function renderDetailView(city) {
     current.condition.text,
     currForecast.day.maxwind_kph,
     currForecast.hour,
+    forecast.forecastday[1].hour,
   );
 
   forecastThreeDays(forecast.forecastday);
@@ -38,6 +40,8 @@ export async function renderDetailView(city) {
     current.humidity,
     current.feelslike_c,
     current.uv,
+    currForecast.astro.sunrise,
+    currForecast.astro.sunset,
   );
 }
 function loadingSpinner(loadingMessage) {
@@ -133,25 +137,34 @@ function getCurrentInfo(cityName, temp, currCondition, maxTemp, minTemp) {
 
   currInfoContainer.innerHTML = html;
 }
-function getDailyForecast(condition, maxWind, forecastHour) {
+function getDailyForecast(condition, maxWind, forecastHour, NextDayHour) {
   const dailyOverviewCard = document.querySelector(".daily-info__card");
   const dailyOverviewBox = document.querySelector(".daily-info__today");
+  const forecast24Hours = [];
+
+  for (let i = new Date().getHours(); i < forecastHour.length; i++) {
+    forecast24Hours.push(forecastHour[i]);
+  }
+  const forecastLengt = 24 - forecast24Hours.length;
+  for (let i = 0; i < forecastLengt; i++) {
+    forecast24Hours.push(NextDayHour[i]);
+  }
 
   dailyOverviewBox.textContent = `${condition}, Wind bis zu ${maxWind}km/h`;
   let html = "";
-  for (let i = new Date().getHours(); i < forecastHour.length; i++) {
+  forecast24Hours.forEach((elm, index) => {
     html += `
    <div class="card">
-              <p class="card__hour">${i === new Date().getHours() ? "jetzt" : new Date(forecastHour[i].time).getHours() + "uhr"} </p>
-              <img class="card__img" src="${forecastHour[i].condition.icon}" alt="s" />
+              <p class="card__hour">${index === 0 ? "Jetzt" : new Date(elm.time).getHours() + "uhr"} </p>
+              <img class="card__img" src="${elm.condition.icon}" alt="s" />
               <p class="card__temperature">
-                ${Math.floor(forecastHour[i].temp_c)}<span class="span--deg">&deg;C</span>
+                ${Math.floor(elm.temp_c)}<span class="span--deg">&deg;C</span>
               </p>
             </div>
 
   `;
-    dailyOverviewCard.innerHTML = html;
-  }
+  });
+  dailyOverviewCard.innerHTML = html;
 }
 
 function setBackgroundImg(condition, isDay) {
@@ -196,11 +209,11 @@ function forecastThreeDays(dayForecast) {
   const forecastContainerEL = document.querySelector(".forecast__days");
 
   let html = "";
-  dayForecast.forEach((elm) => {
+  dayForecast.forEach((elm, index) => {
     html += `
 
 <div class="forecast__card">
-              <p class="forecast__day">${new Date(elm.date).toLocaleDateString("de-DE", { weekday: "short" })}</p>
+              <p class="forecast__day">${index === 0 ? "Heute" : new Date(elm.date).toLocaleDateString("de-DE", { weekday: "short" })}</p>
               <img src="${elm.day.condition.icon}" alt="s" class="card__img" />
               <p class="forecast__average-temp">
                 <span
@@ -226,6 +239,8 @@ function getAdditionalInfo(
   humidity,
   feelLike,
   uvFactor,
+  sunrise,
+  sunset,
 ) {
   const additionalContainerEl = document.querySelector(".main__additional");
 
@@ -241,6 +256,8 @@ function getAdditionalInfo(
 
     feelLike: { value: `${Math.floor(feelLike)}&deg;C`, name: "gefühlt" },
     uvFactor: { value: uvFactor, name: "UV Factor" },
+    sunrice: { value: `${militaryTime(sunrise)} uhr`, name: "Sonnenaufgang" },
+    sunset: { value: `${militaryTime(sunset)} uhr`, name: "Sonnenuntergang" },
   };
 
   let html = "";
@@ -257,4 +274,15 @@ function getAdditionalInfo(
 
     additionalContainerEl.innerHTML = html;
   });
+}
+
+function militaryTime(time) {
+  const dummy = new Date(`2026-01-01 ${time}`);
+
+  const militaryTime = dummy.toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return militaryTime;
 }
