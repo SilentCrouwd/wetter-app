@@ -167,7 +167,7 @@ function getDailyForecast(condition, maxWind, forecastHour, NextDayHour) {
   dailyOverviewCard.innerHTML = html;
 }
 
-function setBackgroundImg(condition, isDay) {
+export function setBackgroundImg(condition, isDay) {
   const formatedCondition = condition.toLowerCase();
   const appContainerEL = document.querySelector(".app");
   const dayTime = isDay === 1;
