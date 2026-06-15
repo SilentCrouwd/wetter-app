@@ -1,6 +1,7 @@
 @use "variables" as *;
 @import "detailview";
 @import "loading";
+@import "menue";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 * {
   padding: 0;
@@ -9,12 +10,11 @@
   box-sizing: border-box;
 }
 body {
-  min-height: 100vh;
-  color: $primary-text-color;
-  background-color: gray;
   display: flex;
   justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+  color: $primary-text-color;
+  background-color: rgb(51, 50, 50);
 }
 
 .app {

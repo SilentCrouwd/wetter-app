@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de>
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -7,7 +7,37 @@
     <title>wetter-app</title>
   </head>
   <body>
-    <div class="app"></div>
+    <div class="app">
+      <div class="main-screen">
+        <div class="main-screen__main-screen-header">
+          <p class="main-screen-header__headline">Wetter</p>
+          <button class="btn btn--edit">Bearbeiten</button>
+        </div>
+        <input
+          class="main-screen__input"
+          type="text"
+          placeholder="Nach Stadt Suchen"
+        />
+        <div class="main-screen__city-container">
+          <div class="city-card">
+            <div class="city-card__header">
+              <div class="city card__header city card__header--left">
+                <p class="city-card__header__city">Lauenstein</p>
+                <p class="city-card__header__country">Germany</p>
+              </div>
+              <p class="city-card__header__temp">24&deg;C</p>
+            </div>
+            <div class="city-card__footer">
+              <p class="city-card__footer__condition">Sonnig</p>
+              <p class="city-card__footer__average-temp">
+                <span class="average-temp--max">H18</span
+                ><span class="average-temp--min">T19</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

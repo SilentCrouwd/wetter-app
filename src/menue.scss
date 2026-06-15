@@ -1,0 +1,73 @@
+@use "variables" as *;
+.main-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  &__main-screen-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__input {
+    width: 95%;
+    height: 2rem;
+    border-radius: 5px;
+  }
+  &__city-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
+  }
+}
+.main-screen-header {
+  &__headline {
+    font-size: 3rem;
+    padding: 0.5rem;
+  }
+}
+.btn--edit {
+  color: $primary-text-color;
+  display: flex;
+  align-items: center;
+  border: none;
+  height: fit-content;
+  padding: 0.5rem;
+  background-color: transparent;
+}
+.city-card {
+  cursor: pointer;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: $primary-box-schadow;
+
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+
+  &__header {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between;
+
+    &__city {
+      font-size: 1.5rem;
+    }
+    &__country {
+      font-size: 1rem;
+    }
+    &__temp {
+      font-size: 2rem;
+    }
+  }
+  &__footer {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between;
+  }
+}
