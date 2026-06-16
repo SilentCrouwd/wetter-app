@@ -44,7 +44,7 @@ export async function renderDetailView(city) {
     currForecast.astro.sunset,
   );
 }
-function loadingSpinner(loadingMessage) {
+export function loadingSpinner(loadingMessage) {
   const appEl = document.querySelector(".app");
   appEl.innerHTML = `
  <div class="ls-spinner__Container"> 
@@ -66,6 +66,7 @@ function loadingSpinner(loadingMessage) {
   </div>
   `;
 }
+
 function getAppContent() {
   const appEl = document.querySelector(".app");
   appEl.innerHTML = `
