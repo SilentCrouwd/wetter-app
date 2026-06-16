@@ -8,6 +8,7 @@ InitApp();
 
 async function InitApp() {
   loadingSpinner("Lade daten für Übersicht...");
+  const appEl = document.querySelector(".app");
   appEl.innerHTML = getMainContent();
   await getCityCards(cityArr);
   applyListeners();
