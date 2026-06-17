@@ -178,8 +178,8 @@ export function setBackgroundImg(condition, isDay, currElm) {
       : currElm.classList.add("clear-night");
   } else if (formatedCondition.includes("gewitter")) {
     dayTime
-      ? currElm.classList.add("cloudy")
-      : currElm.classList.add("cloudy-night");
+      ? currElm.classList.add("thunder")
+      : currElm.classList.add("thunder-night");
   } else if (formatedCondition.includes("schnee")) {
     dayTime
       ? currElm.classList.add("snow")

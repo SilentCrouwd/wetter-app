@@ -38,7 +38,9 @@ body {
 .rain {
   background-image: url("./assets/conditionImages/day/rain.jpg");
 }
-
+.thunder {
+  background-image: url("./assets/conditionImages/day/thunder.jpg");
+}
 .snow {
   background-image: url("./assets/conditionImages/day/snow.jpg");
 }
@@ -55,6 +57,9 @@ body {
   background-image: url("./assets/conditionImages/night/rain-night.jpg");
 }
 
+.thunder-night {
+  background-image: url("./assets/conditionImages/night/thunder-night.jpg");
+}
 .snow-night {
   background-image: url("./assets/conditionImages/night/snow-night.jpg");
 }
