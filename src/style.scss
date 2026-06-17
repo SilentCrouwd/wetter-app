@@ -30,3 +30,39 @@ body {
     width: 400px;
   }
 }
+
+.sunny {
+  background-image: url("./assets/conditionImages/day/sunny.jpg");
+}
+
+.rain {
+  background-image: url("./assets/conditionImages/day/regen.jpg");
+}
+
+.snow {
+  background-image: url("./assets/conditionImages/day/schnee.jpg");
+}
+
+.cloudy {
+  background-image: url("./assets/conditionImages/day/cloudy.jpg");
+}
+
+.default {
+  background-image: url("./assets/conditionImages/day/default.jpg");
+}
+
+.rain-night {
+  background-image: url("./assets/conditionImages/night/regen.jpg");
+}
+
+.snow-night {
+  background-image: url("./assets/conditionImages/night/schnee.jpg");
+}
+
+.cloudy-night {
+  background-image: url("./assets/conditionImages/night/cloudy.jpg");
+}
+
+.default-night {
+  background-image: url("./assets/conditionImages/night/default.jpg");
+}

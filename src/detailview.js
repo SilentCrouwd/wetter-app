@@ -15,7 +15,7 @@ export async function renderDetailView(city) {
   const wetherData = await getWetherData(city);
   const { current, forecast, location } = wetherData;
   const currForecast = forecast.forecastday[0];
-
+  const appEL = document.querySelector(".app");
   getAppContent();
   getCurrentInfo(
     location.name,
@@ -24,7 +24,7 @@ export async function renderDetailView(city) {
     currForecast.day.maxtemp_c,
     currForecast.day.mintemp_c,
   );
-  setBackgroundImg(current.condition.text, current.is_day);
+  setBackgroundImg(current.condition.text, current.is_day, appEL);
   getDailyForecast(
     current.condition.text,
     currForecast.day.maxwind_kph,
@@ -168,7 +168,7 @@ function getDailyForecast(condition, maxWind, forecastHour, NextDayHour) {
   dailyOverviewCard.innerHTML = html;
 }
 
-export function setBackgroundImg(condition, isDay) {
+export function setBackgroundImg(condition, isDay, currElm) {
   const formatedCondition = condition.toLowerCase();
   const appContainerEL = document.querySelector(".app");
   const dayTime = isDay === 1;
@@ -176,33 +176,35 @@ export function setBackgroundImg(condition, isDay) {
     formatedCondition.includes("bewölkt") ||
     formatedCondition.includes("bedeckt")
   ) {
-    appContainerEL.style.backgroundImage = dayTime
-      ? `url(${defaultDay})`
-      : `url(${defaultNight})`;
+    dayTime
+      ? currElm.classList.add("cloudy")
+      : currElm.classList.add("cloudy-night");
   } else if (
     formatedCondition.includes("klar") ||
     formatedCondition.includes("sonnig")
   ) {
-    appContainerEL.style.backgroundImage = dayTime
-      ? `url(${sonnigDayDay})`
-      : `url(${defaultNight})`;
+    dayTime
+      ? currElm.classList.add("sunny")
+      : currElm.classList.add("clear-night");
   } else if (formatedCondition.includes("gewitter")) {
-    appContainerEL.style.backgroundImage = dayTime
-      ? `url(${bewoelktDay})`
-      : `url(${bewoelktNight})`;
+    dayTime
+      ? currElm.classList.add("cloudy")
+      : currElm.classList.add("cloudy-night");
   } else if (formatedCondition.includes("schnee")) {
-    appContainerEL.style.backgroundImage = dayTime
-      ? `url(${schneeDay})`
-      : `url(${schneeNight})`;
+    dayTime
+      ? currElm.classList.add("snow")
+      : currElm.classList.add("snow-night");
   } else if (
     formatedCondition.includes("regen") ||
     formatedCondition.includes("niesel")
   ) {
-    appContainerEL.style.backgroundImage = dayTime
-      ? `url(${regenDay})`
-      : `url(${regenNight})`;
+    dayTime
+      ? currElm.classList.add("rain")
+      : currElm.classList.add("rain-night");
   } else {
-    appContainerEL.style.backgroundImage = `url(${defaultDay})`;
+    dayTime
+      ? currElm.classList.add("default")
+      : currElm.classList.add("default-night");
   }
 }
 

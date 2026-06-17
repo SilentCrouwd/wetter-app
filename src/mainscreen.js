@@ -1,8 +1,12 @@
 import { getWetherData } from "./api";
-import { loadingSpinner, renderDetailView } from "./detailview";
+import {
+  loadingSpinner,
+  renderDetailView,
+  setBackgroundImg,
+} from "./detailview";
 import { appEl } from "./main";
 
-const cityArr = ["lauenau", "Lauenstein", "mannheim", "Coppenbrügge"];
+const cityArr = ["Hamburg", "New York", "moskau", "bombay"];
 //background dynamisch übergeben
 InitApp();
 
@@ -28,6 +32,7 @@ export async function getCityCards(cityArr) {
       location.name,
       location.region,
       current.temp_c,
+      current.is_day,
       current.condition.text,
       currforecast.maxtemp_c,
       currforecast.mintemp_c,
@@ -59,6 +64,7 @@ function getCityCard(
   city,
   country,
   currTemp,
+  isDay,
   crurrCondition,
   maxTemp,
   minTemp,
@@ -74,7 +80,7 @@ function getCityCard(
               <p class="city-card__header__temp">${Math.floor(currTemp)}&deg;C</p>
             </div>
             <div class="city-card__footer">
-              <p class="city-card__footer__condition">${crurrCondition}</p>
+              <p class="city-card__footer__condition"data-isDay="${isDay}">${crurrCondition}</p>
               <p class="city-card__footer__average-temp">
                 <span class="average-temp--max">H${Math.floor(maxTemp)}&deg;C </span
                 ><span class="average-temp--min">T${Math.floor(minTemp)}&deg;C</span>
@@ -89,10 +95,18 @@ function applyListeners(city) {
   const cardElments = document.querySelectorAll(".city-card");
 
   cardElments.forEach((card) => {
+    backgroundCards(card);
     card.addEventListener("click", () => {
       const city = card.getAttribute("data-city");
 
       renderDetailView(city);
     });
   });
+}
+
+function backgroundCards(elm) {
+  const conditionElm = elm.querySelector(".city-card__footer__condition");
+  const isDay = Number(conditionElm.getAttribute("data-isDay"));
+  setBackgroundImg(conditionElm.innerHTML, isDay, elm);
+  console.log(isDay);
 }
