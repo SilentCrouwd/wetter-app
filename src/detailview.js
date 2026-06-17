@@ -1,14 +1,4 @@
 import { getWetherData } from "./api";
-import regenDay from "./assets/conditionImages/day/regen.jpg";
-import sonnigDay from "./assets/conditionImages/day/sunny.jpg";
-import schneeDay from "./assets/conditionImages/day/schnee.jpg";
-import bewoelktDay from "./assets/conditionImages/day/cloudy.jpg";
-import defaultDay from "./assets/conditionImages/day/default.jpg";
-
-import regenNight from "./assets/conditionImages/night/regen.jpg";
-import schneeNight from "./assets/conditionImages/night/schnee.jpg";
-import bewoelktNight from "./assets/conditionImages/night/cloudy.jpg";
-import defaultNight from "./assets/conditionImages/night/default.jpg";
 
 export async function renderDetailView(city) {
   loadingSpinner("Lade Daten von" + city + "...");
