@@ -1,12 +1,20 @@
-import { getWetherData } from "./api";
+import { getLocalStorage, getWetherData, setLocalStorage } from "./api";
+import { InitApp } from "./mainscreen";
 
 export async function renderDetailView(city) {
-  loadingSpinner("Lade Daten von" + city + "...");
-  const wetherData = await getWetherData(city);
-  const { current, forecast, location } = wetherData;
-  const currForecast = forecast.forecastday[0];
   const appEL = document.querySelector(".app");
+
+  loadingSpinner(appEL, "Lade Daten von" + city + "...");
+
+  const wetherData = await getWetherData(city);
+
+  const { current, forecast, location } = wetherData;
+
+  const currForecast = forecast.forecastday[0];
+
   getAppContent();
+  const backBtnEl = document.querySelector(".btn--back");
+  const favoritBtnEl = document.querySelector(".btn--favorit");
   getCurrentInfo(
     location.name,
     current.temp_c,
@@ -21,7 +29,17 @@ export async function renderDetailView(city) {
     currForecast.hour,
     forecast.forecastday[1].hour,
   );
+  backBtnEl.addEventListener("click", () => {
+    appEL.classList.remove(appEL.classList[1]);
+    InitApp();
+  });
+  favoritBtnEl.addEventListener("click", () => {
+    let newCityArr = getLocalStorage();
 
+    newCityArr.push(city);
+
+    setLocalStorage(newCityArr);
+  });
   forecastThreeDays(forecast.forecastday);
   getAdditionalInfo(
     current.chance_of_rain,
@@ -34,9 +52,8 @@ export async function renderDetailView(city) {
     currForecast.astro.sunset,
   );
 }
-export function loadingSpinner(loadingMessage) {
-  const appEl = document.querySelector(".app");
-  appEl.innerHTML = `
+export function loadingSpinner(targetEL, loadingMessage) {
+  targetEL.innerHTML = `
  <div class="ls-spinner__Container"> 
       <p class="lds-spinner--text">${loadingMessage}</p>
           <div class="lds-spinner">

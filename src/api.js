@@ -1,3 +1,5 @@
+const LOCAL_STORAGE_KEY = "CityArray";
+
 export async function getWetherData(city, days = 3) {
   try {
     const response = await fetch(
@@ -12,4 +14,13 @@ export async function getWetherData(city, days = 3) {
     return null;
   } finally {
   }
+}
+
+export function getLocalStorage() {
+  const cityArray = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+  return cityArray;
+}
+
+export function setLocalStorage(insertedArray) {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(insertedArray));
 }

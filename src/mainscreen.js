@@ -1,29 +1,41 @@
-import { getWetherData } from "./api";
+import { getLocalStorage, getWetherData, setLocalStorage } from "./api";
 import {
   loadingSpinner,
   renderDetailView,
   setBackgroundImg,
 } from "./detailview";
-import { appEl } from "./main";
 
-const cityArr = ["Hamburg", "New York", "moskau", "bombay"];
-//background dynamisch übergeben
-InitApp();
+export async function InitApp() {
+  const appContainerEl = document.querySelector(".app");
+  const cityArr = getLocalStorage();
+  if (!appContainerEl) return;
 
-async function InitApp() {
-  loadingSpinner("Lade daten für Übersicht...");
-  const appEl = document.querySelector(".app");
-  appEl.innerHTML = getMainContent();
-  await getCityCards(cityArr);
-  applyListeners();
+  appContainerEl.innerHTML = getMainContent();
+
+  const cityContainerEl = appContainerEl.querySelector(
+    ".main-screen__city-container",
+  );
+  if (!cityContainerEl) return;
+
+  loadingSpinner(cityContainerEl, "Lade daten für Übersicht...");
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  try {
+    cityContainerEl.innerHTML = "";
+
+    await getCityCards(cityArr);
+  } catch (error) {
+    // console.error("Error: " + error);
+  } finally {
+    applyListeners();
+  }
 }
 export async function getCityCards(cityArr) {
   for (const city of cityArr) {
-    const wetherData = await getWetherData(city);
+    const wetherData = await getWetherData(city, 1);
     const { current, forecast, location } = wetherData;
 
     const currforecast = forecast.forecastday[0].day;
-
     const mainScreenCityContainerEL = document.querySelector(
       ".main-screen__city-container",
     );
@@ -49,6 +61,7 @@ function getMainContent() {
           <button class="btn btn--edit">Bearbeiten</button>
         </div>
         <input
+        name="cityserch"
           class="main-screen__input"
           type="text"
           placeholder="Nach Stadt Suchen"
@@ -102,11 +115,20 @@ function applyListeners(city) {
       renderDetailView(city);
     });
   });
+
+  const inputCity = document.querySelector(".main-screen__input");
+  inputCity.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const newCity = inputCity.value;
+      renderDetailView(newCity);
+    }
+  });
 }
 
 function backgroundCards(elm) {
   const conditionElm = elm.querySelector(".city-card__footer__condition");
   const isDay = Number(conditionElm.getAttribute("data-isDay"));
   setBackgroundImg(conditionElm.innerHTML, isDay, elm);
+
   console.log(isDay);
 }
