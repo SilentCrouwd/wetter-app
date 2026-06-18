@@ -84,23 +84,38 @@ function getCityCard(
   minTemp,
 ) {
   return `
-
- <div class="city-card"data-city="${city}" >
-            <div class="city-card__header">
-              <div class="city-card__header city-card__header--left">
-                <p class="city-card__header__city">${city}</p>
-                <p class="city-card__header__country">${country}</p>
-              </div>
-              <p class="city-card__header__temp">${Math.floor(currTemp)}&deg;C</p>
-            </div>
-            <div class="city-card__footer">
-              <p class="city-card__footer__condition"data-isDay="${isDay}">${crurrCondition}</p>
-              <p class="city-card__footer__average-temp">
-                <span class="average-temp--max">H${Math.floor(maxTemp)}&deg;C </span
-                ><span class="average-temp--min">T${Math.floor(minTemp)}&deg;C</span>
-              </p>
-            </div>
+<div class="city-wrapper hidden">
+        <svg
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          class="svg svg--delete"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M16,10V17A1,1 0 0,1 15,18H9A1,1 0 0,1 8,17V10H16M13.5,6L14.5,7H17V9H7V7H9.5L10.5,6H13.5Z"
+          />
+        </svg>
+      </div>
+      <div class="city-card" data-city="${city}">
+        <div class="city-card__header">
+          <div class="city-card__header city-card__header--left">
+            <p class="city-card__header__city">${city}</p>
+            <p class="city-card__header__country">${country}</p>
           </div>
+          <p class="city-card__header__temp">${Math.floor(currTemp)}&deg;C</p>
+        </div>
+        <div class="city-card__footer">
+          <p class="city-card__footer__condition" data-isDay="${isDay}">
+            ${crurrCondition}
+          </p>
+          <p class="city-card__footer__average-temp">
+            <span class="average-temp--max">H${Math.floor(maxTemp)}&deg;C </span
+            ><span class="average-temp--min"
+              >T${Math.floor(minTemp)}&deg;C</span
+            >
+          </p>
+        </div>
+      </div>
 
 `;
 }
@@ -123,8 +138,21 @@ function applyListeners(city) {
       const newCity = inputCity.value;
 
       renderDetailView(newCity);
-  
     }
+  });
+
+  const editBtnEl = document.querySelector(".btn--edit");
+  editBtnEl.addEventListener("click", () => {
+    const delelteBtnEl = document.querySelectorAll(".city-wrapper");
+    const mainCityContainer = document.querySelector(
+      ".main-screen__city-container",
+    );
+    mainCityContainer.classList.toggle("showDelete");
+    delelteBtnEl.forEach((elm) => {
+      elm.classList.toggle("hidden");
+    });
+    // hidden weg nehmen
+    // cards  klassse neu setzen
   });
 }
 
@@ -132,4 +160,10 @@ function backgroundCards(elm) {
   const conditionElm = elm.querySelector(".city-card__footer__condition");
   const isDay = Number(conditionElm.getAttribute("data-isDay"));
   setBackgroundImg(conditionElm.innerHTML, isDay, elm);
+}
+
+function deleteCards() {
+  // array nach index suchen
+  // eintrag löschen
+  //neu Rendern
 }
