@@ -4,6 +4,7 @@ import {
   renderDetailView,
   setBackgroundImg,
 } from "./detailview";
+import { checkExist } from "./utility";
 
 export async function InitApp() {
   const appContainerEl = document.querySelector(".app");
@@ -120,7 +121,9 @@ function applyListeners(city) {
   inputCity.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       const newCity = inputCity.value;
+
       renderDetailView(newCity);
+  
     }
   });
 }
@@ -129,6 +132,4 @@ function backgroundCards(elm) {
   const conditionElm = elm.querySelector(".city-card__footer__condition");
   const isDay = Number(conditionElm.getAttribute("data-isDay"));
   setBackgroundImg(conditionElm.innerHTML, isDay, elm);
-
-  console.log(isDay);
 }

@@ -1,5 +1,6 @@
 import { getLocalStorage, getWetherData, setLocalStorage } from "./api";
 import { InitApp } from "./mainscreen";
+import { checkExist, pushNewCity } from "./utility";
 
 export async function renderDetailView(city) {
   const appEL = document.querySelector(".app");
@@ -13,8 +14,10 @@ export async function renderDetailView(city) {
   const currForecast = forecast.forecastday[0];
 
   getAppContent();
+  checkExist(city);
   const backBtnEl = document.querySelector(".btn--back");
   const favoritBtnEl = document.querySelector(".btn--favorit");
+
   getCurrentInfo(
     location.name,
     current.temp_c,
@@ -34,11 +37,7 @@ export async function renderDetailView(city) {
     InitApp();
   });
   favoritBtnEl.addEventListener("click", () => {
-    let newCityArr = getLocalStorage();
-
-    newCityArr.push(city);
-
-    setLocalStorage(newCityArr);
+    pushNewCity(city);
   });
   forecastThreeDays(forecast.forecastday);
   getAdditionalInfo(
