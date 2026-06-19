@@ -1,10 +1,15 @@
-import { getLocalStorage, getWetherData, setLocalStorage } from "./api";
+import {
+  getLocalStorage,
+  getWetherData,
+  serchApi,
+  setLocalStorage,
+} from "./api";
 import {
   loadingSpinner,
   renderDetailView,
   setBackgroundImg,
 } from "./detailview";
-import { checkExist, deleteCity } from "./utility";
+import { checkExist, deleteCity, fillSearch } from "./utility";
 
 export async function InitApp() {
   const appContainerEl = document.querySelector(".app");
@@ -59,12 +64,18 @@ function getMainContent() {
           <p class="main-screen-header__headline">Wetter</p>
           <button class="btn btn--edit">Bearbeiten</button>
         </div>
+        <search>
         <input
         name="cityserch"
           class="main-screen__input"
-          type="text"
+          type="search"
+          autocomplete="off"
           placeholder="Nach Stadt Suchen"
         />
+        <ul class="searchList">
+        <li></li>
+        </ul>
+        </search>
         <div class="main-screen__city-container"></div>
       </div>
   
@@ -131,12 +142,9 @@ function applyListeners(city) {
   });
 
   const inputCity = document.querySelector(".main-screen__input");
-  inputCity.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const newCity = inputCity.value;
-
-      renderDetailView(newCity);
-    }
+  inputCity.addEventListener("keyup", () => {
+    const newCity = inputCity.value;
+    fillSearch(newCity);
   });
 
   const editBtnEl = document.querySelector(".btn--edit");
@@ -170,3 +178,8 @@ function backgroundCards(elm) {
   const isDay = Number(conditionElm.getAttribute("data-isDay"));
   setBackgroundImg(conditionElm.innerHTML, isDay, elm);
 }
+
+//serch andere api /serch https://api.weatherapi.com/v1/fsearch.json?key=86a979bdd40a47c6b58140058260806&q=salz
+// liste soll beim raus klicken verschwinden im input wenn wieder rein dann wider angezeigt
+//Stadt über Id einlesen nicht mehr über Namen
+//debouncing warten bis fertig mit tippen

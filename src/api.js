@@ -24,3 +24,12 @@ export function getLocalStorage() {
 export function setLocalStorage(insertedArray) {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(insertedArray));
 }
+
+export async function serchApi(input) {
+  const response = await fetch(
+    `https://api.weatherapi.com/v1/fsearch.json?key=86a979bdd40a47c6b58140058260806&q=${input}`,
+  );
+  const searchCity = await response.json();
+  console.log(searchCity);
+  return searchCity;
+}

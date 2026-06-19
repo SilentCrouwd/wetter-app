@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from "./api";
+import { getLocalStorage, serchApi, setLocalStorage } from "./api";
 import { renderDetailView } from "./detailview";
 
 export function checkExist(cityInput) {
@@ -35,5 +35,17 @@ export function deleteCity(index) {
   );
 
   setLocalStorage(result);
+}
 
+export async function fillSearch(input) {
+  let html = "";
+  const citySearch = await serchApi(input);
+  const inputCity = document.querySelector(".searchList");
+  console.log(citySearch);
+  citySearch.forEach((element) => {
+    html += `
+      <li class="search--value" >${element.name}</li>
+  `;
+  });
+  inputCity.innerHTML = html;
 }
