@@ -5,10 +5,9 @@ export function checkExist(cityInput) {
   const newCityArr = getLocalStorage();
 
   const exist = newCityArr.some(
-    (city) => city.toLowerCase() === cityInput.toLowerCase(),
+    (city) => city.toUpperCase() === cityInput.toUpperCase(),
   );
 
-  console.log(newCityArr);
   const favoritBtnEl = document.querySelector(".btn--favorit");
 
   exist
@@ -22,4 +21,19 @@ export function pushNewCity(newCity) {
   newCityArr.push(newCity);
   setLocalStorage(newCityArr);
   favoritBtnEl.classList.add("hidden");
+}
+
+export function deleteCity(index) {
+  const cityArray = getLocalStorage();
+  //nach dem data-Parameter suchen (city)
+  const CityCardsEl = document.querySelectorAll(".city-card");
+
+  const cityToDel = CityCardsEl[index].getAttribute("data-city");
+
+  const result = cityArray.filter(
+    (city) => city.toUpperCase() !== cityToDel.toLocaleUpperCase(),
+  );
+
+  setLocalStorage(result);
+
 }

@@ -86,10 +86,11 @@
 }
 .svg--delete {
   fill: red;
+  cursor: pointer;
 }
 
 .showDelete {
-  display: grid;
-  grid-template-columns: 1fr 10fr;
-  justify-items: center;
+  display: flex;
+  flex-direction: row;
+  width: 95%;
 }

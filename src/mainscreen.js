@@ -4,7 +4,7 @@ import {
   renderDetailView,
   setBackgroundImg,
 } from "./detailview";
-import { checkExist } from "./utility";
+import { checkExist, deleteCity } from "./utility";
 
 export async function InitApp() {
   const appContainerEl = document.querySelector(".app");
@@ -151,8 +151,13 @@ function applyListeners(city) {
     delelteBtnEl.forEach((elm) => {
       elm.classList.toggle("hidden");
     });
-    // hidden weg nehmen
-    // cards  klassse neu setzen
+  });
+  const deleteBtnEl = document.querySelectorAll(".svg--delete");
+  deleteBtnEl.forEach((delBtn, index) => {
+    delBtn.addEventListener("click", () => {
+      deleteCity(index);
+      InitApp();
+    });
   });
 }
 
@@ -160,10 +165,4 @@ function backgroundCards(elm) {
   const conditionElm = elm.querySelector(".city-card__footer__condition");
   const isDay = Number(conditionElm.getAttribute("data-isDay"));
   setBackgroundImg(conditionElm.innerHTML, isDay, elm);
-}
-
-function deleteCards() {
-  // array nach index suchen
-  // eintrag löschen
-  //neu Rendern
 }
