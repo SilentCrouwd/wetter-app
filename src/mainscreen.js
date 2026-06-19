@@ -8,30 +8,28 @@ import { checkExist, deleteCity } from "./utility";
 
 export async function InitApp() {
   const appContainerEl = document.querySelector(".app");
-  const cityArr = getLocalStorage();
-  if (!appContainerEl) return;
 
   appContainerEl.innerHTML = getMainContent();
 
-  const cityContainerEl = appContainerEl.querySelector(
+  const cityContainerEl = document.querySelector(
     ".main-screen__city-container",
   );
-  if (!cityContainerEl) return;
 
   loadingSpinner(cityContainerEl, "Lade daten für Übersicht...");
   await new Promise((resolve) => setTimeout(resolve, 100));
-
+  const cityArr = getLocalStorage();
   try {
     cityContainerEl.innerHTML = "";
 
-    await getCityCards(cityArr);
+    await renderCityCards(cityArr);
   } catch (error) {
     // console.error("Error: " + error);
   } finally {
     applyListeners();
   }
 }
-export async function getCityCards(cityArr) {
+
+export async function renderCityCards(cityArr) {
   for (const city of cityArr) {
     const wetherData = await getWetherData(city, 1);
     const { current, forecast, location } = wetherData;
@@ -142,11 +140,17 @@ function applyListeners(city) {
   });
 
   const editBtnEl = document.querySelector(".btn--edit");
+
   editBtnEl.addEventListener("click", () => {
     const delelteBtnEl = document.querySelectorAll(".city-wrapper");
     const mainCityContainer = document.querySelector(
       ".main-screen__city-container",
     );
+    if (editBtnEl.innerHTML === "Bearbeiten") {
+      editBtnEl.innerHTML = "Fertig";
+    } else {
+      editBtnEl.innerHTML = "Bearbeiten";
+    }
     mainCityContainer.classList.toggle("showDelete");
     delelteBtnEl.forEach((elm) => {
       elm.classList.toggle("hidden");
@@ -154,7 +158,7 @@ function applyListeners(city) {
   });
   const deleteBtnEl = document.querySelectorAll(".svg--delete");
   deleteBtnEl.forEach((delBtn, index) => {
-    delBtn.addEventListener("click", () => {
+    delBtn.addEventListener("click", async () => {
       deleteCity(index);
       InitApp();
     });

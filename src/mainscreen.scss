@@ -90,7 +90,7 @@
 }
 
 .showDelete {
-  display: flex;
-  flex-direction: row;
-  width: 95%;
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  justify-self: center;
 }
