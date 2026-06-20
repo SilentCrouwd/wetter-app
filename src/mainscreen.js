@@ -140,11 +140,16 @@ function applyListeners(city) {
       renderDetailView(city);
     });
   });
-
+  let timeoutId;
   const inputCity = document.querySelector(".main-screen__input");
-  inputCity.addEventListener("keyup", () => {
-    const newCity = inputCity.value;
-    fillSearch(newCity);
+  inputCity.addEventListener("input", () => {
+    clearTimeout(timeoutId);
+    if (inputCity.value.length >= 3) {
+      const newCity = inputCity.value;
+      timeoutId = setTimeout(() => {
+        fillSearch(newCity);
+      }, 1500);
+    }
   });
 
   const editBtnEl = document.querySelector(".btn--edit");
