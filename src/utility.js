@@ -42,6 +42,7 @@ export async function fillSearch(input) {
   const citySearch = await serchApi(input);
   const inputCity = document.querySelector(".searchList");
   console.log(citySearch);
+
   citySearch.forEach((element) => {
     html += `
       <li class="search--value" >${element.name}</li>
