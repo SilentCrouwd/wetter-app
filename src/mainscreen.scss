@@ -94,3 +94,14 @@
   grid-template-columns: 1fr 10fr;
   justify-self: center;
 }
+.searchList {
+  width: 95%;
+  anchor-name: --input;
+
+  list-style-type: none;
+  background-color: white;
+  color: black;
+  li:hover {
+    cursor: pointer;
+  }
+}

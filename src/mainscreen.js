@@ -64,7 +64,7 @@ function getMainContent() {
           <p class="main-screen-header__headline">Wetter</p>
           <button class="btn btn--edit">Bearbeiten</button>
         </div>
-        <search>
+    
         <input
         name="cityserch"
           class="main-screen__input"
@@ -73,9 +73,7 @@ function getMainContent() {
           placeholder="Nach Stadt Suchen"
         />
         <ul class="searchList">
-        <li></li>
         </ul>
-        </search>
         <div class="main-screen__city-container"></div>
       </div>
   
