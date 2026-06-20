@@ -1,3 +1,4 @@
+import { render } from "sass";
 import {
   getLocalStorage,
   getWetherData,
@@ -64,16 +65,17 @@ function getMainContent() {
           <p class="main-screen-header__headline">Wetter</p>
           <button class="btn btn--edit">Bearbeiten</button>
         </div>
-    
-        <input
-        name="cityserch"
-          class="main-screen__input"
-          type="search"
-          autocomplete="off"
-          placeholder="Nach Stadt Suchen"
-        />
-        <ul class="searchList">
-        </ul>
+          <div class="city-search">
+              <input
+              name="city-search__input"
+                class="city-search__input"
+                type="input"
+                autocomplete="off"
+                placeholder="Nach Stadt Suchen"
+              />
+              <ul class="city-search__list">
+                  </ul>
+        </div>
         <div class="main-screen__city-container"></div>
       </div>
   
@@ -127,6 +129,8 @@ function getCityCard(
 `;
 }
 
+// Render Detailview on click
+
 function applyListeners(city) {
   const cardElments = document.querySelectorAll(".city-card");
 
@@ -138,9 +142,22 @@ function applyListeners(city) {
       renderDetailView(city);
     });
   });
+
+  // Input Listenter
+
   let timeoutId;
-  const inputCity = document.querySelector(".main-screen__input");
-  inputCity.addEventListener("input", () => {
+  const citySugestionListEl = document.querySelector(".city-search__list");
+  const inputCity = document.querySelector(".city-search__input");
+
+  inputCity.addEventListener("focus", () => {
+    citySugestionListEl.style.display = "block";
+  });
+  inputCity.addEventListener("blur", () => {
+    setTimeout(() => {
+      citySugestionListEl.style.display = "none";
+    }, 150);
+  });
+  inputCity.addEventListener("keyup", () => {
     clearTimeout(timeoutId);
     if (inputCity.value.length >= 3) {
       const newCity = inputCity.value;
@@ -149,6 +166,23 @@ function applyListeners(city) {
       }, 1500);
     }
   });
+
+  // Klickbare sugestions
+  citySugestionListEl.addEventListener("click", (event) => {
+    const sugestion = event.target.closest(".city-search__value");
+    if (sugestion) {
+      console.log("Ausgewählte Stadt HTML:", sugestion.innerHTML);
+      inputCity.value = sugestion.innerHTML;
+      inputCity.focus();
+    }
+  });
+  inputCity.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      renderDetailView(inputCity.value);
+    }
+  });
+
+  // Onklick Bearbeiten Button
 
   const editBtnEl = document.querySelector(".btn--edit");
 
@@ -167,6 +201,9 @@ function applyListeners(city) {
       elm.classList.toggle("hidden");
     });
   });
+
+  // del Button
+
   const deleteBtnEl = document.querySelectorAll(".svg--delete");
   deleteBtnEl.forEach((delBtn, index) => {
     delBtn.addEventListener("click", async () => {

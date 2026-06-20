@@ -94,14 +94,27 @@
   grid-template-columns: 1fr 10fr;
   justify-self: center;
 }
-.searchList {
+.city-search {
   width: 95%;
-  anchor-name: --input;
+  position: relative;
+  background-color: rgb(49, 48, 48);
+  color: $primary-text-color;
 
-  list-style-type: none;
-  background-color: white;
-  color: black;
-  li:hover {
-    cursor: pointer;
+  &__input {
+    padding: 0.5rem;
+    width: 100%;
+    color: $primary-text-color;
+    background-color: rgb(49, 48, 48);
+  }
+  &__list {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    background-color: rgb(49, 48, 48);
+  }
+  &__value {
+    padding: 0.5rem;
   }
 }
