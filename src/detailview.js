@@ -5,7 +5,6 @@ import { checkExist, pushNewCity } from "./utility";
 export async function renderDetailView(cityObj) {
   const { name, id, days } = cityObj;
 
-
   const appEL = document.querySelector(".app");
 
   loadingSpinner(appEL, "Lade Daten von" + name + "...");
@@ -195,7 +194,7 @@ export function setBackgroundImg(condition, isDay, currElm) {
   ) {
     dayTime
       ? currElm.classList.add("sunny")
-      : currElm.classList.add("clear-night");
+      : currElm.classList.add("default-night");
   } else if (formatedCondition.includes("gewitter")) {
     dayTime
       ? currElm.classList.add("thunder")
