@@ -18,7 +18,7 @@ export function pushNewCity(cityObj) {
   let cityObjArr = getLocalStorage();
   cityObjArr.push(cityObj);
   setLocalStorage(cityObjArr);
-  console.log(cityObjArr);
+
   favoritBtnEl.classList.add("hidden");
 }
 
@@ -35,12 +35,12 @@ export async function fillSearch(input) {
   let html = "";
   const citySearch = await serchApi(input);
   const inputCity = document.querySelector(".city-search__list");
-  console.log(citySearch);
 
   citySearch.forEach((element) => {
     html += `
       <li class="city-search__value" data-cityId="${element.id}" >${element.name}</li>
-  `;
+  <li class="city-search__country" >${element.region}</li>
+      `;
   });
   inputCity.innerHTML = html;
 }

@@ -31,7 +31,7 @@ export async function InitApp() {
 
     await renderCityCards(newCityObj);
   } catch (error) {
-    // console.error("Error: " + error);
+    console.error("Error: " + error);
   } finally {
     applyListeners(newCityObj);
   }
@@ -140,7 +140,7 @@ function applyListeners(cityObj) {
     backgroundCards(card);
     card.addEventListener("click", () => {
       const city = card.getAttribute("data-city");
-      console.log(cityObj);
+
       renderDetailView(cityObj[index]);
     });
   });
@@ -173,7 +173,6 @@ function applyListeners(cityObj) {
   citySugestionListEl.addEventListener("click", (event) => {
     const sugestion = event.target.closest(".city-search__value");
     if (sugestion) {
-      console.log("Ausgewählte Stadt HTML:", sugestion.innerHTML);
       inputCity.value = sugestion.innerHTML;
       inputCity.focus();
       newCityObj = {

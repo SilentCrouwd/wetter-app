@@ -4,7 +4,7 @@ import { checkExist, pushNewCity } from "./utility";
 
 export async function renderDetailView(cityObj) {
   const { name, id, days } = cityObj;
-  console.log(name);
+
 
   const appEL = document.querySelector(".app");
 
