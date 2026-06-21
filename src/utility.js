@@ -22,17 +22,12 @@ export function pushNewCity(cityObj) {
   favoritBtnEl.classList.add("hidden");
 }
 
-export function deleteCity(index) {
+export function deleteCity(cityObj) {
   const cityArray = getLocalStorage();
-  //nach dem data-Parameter suchen (city)
-  const CityCardsEl = document.querySelectorAll(".city-card");
 
-  const cityToDel = CityCardsEl[index].getAttribute("data-city");
-
-  const result = cityArray.name.filter(
-    (city) => city.toUpperCase() !== cityToDel.toLocaleUpperCase(),
-  );
-
+  const result = cityArray.filter((city) => {
+    return city.id !== cityObj.id;
+  });
   setLocalStorage(result);
 }
 

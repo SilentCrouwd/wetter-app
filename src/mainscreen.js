@@ -215,7 +215,7 @@ function applyListeners(cityObj) {
   const deleteBtnEl = document.querySelectorAll(".svg--delete");
   deleteBtnEl.forEach((delBtn, index) => {
     delBtn.addEventListener("click", async () => {
-      deleteCity(index);
+      deleteCity(cityObj[index]);
       InitApp();
     });
   });
