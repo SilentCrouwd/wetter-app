@@ -2,22 +2,32 @@ import { getLocalStorage, getWetherData, setLocalStorage } from "./api";
 import { InitApp } from "./mainscreen";
 import { checkExist, pushNewCity } from "./utility";
 
-export async function renderDetailView(city) {
+export async function renderDetailView(cityObj) {
+  const { name, id, days } = cityObj;
+  console.log(name);
+
   const appEL = document.querySelector(".app");
 
-  loadingSpinner(appEL, "Lade Daten von" + city + "...");
+  loadingSpinner(appEL, "Lade Daten von" + name + "...");
 
-  const wetherData = await getWetherData(city);
+  const wetherData = await getWetherData(id);
 
   const { current, forecast, location } = wetherData;
 
   const currForecast = forecast.forecastday[0];
 
   getAppContent();
-  checkExist(city);
+  checkExist(cityObj);
   const backBtnEl = document.querySelector(".btn--back");
   const favoritBtnEl = document.querySelector(".btn--favorit");
 
+  backBtnEl.addEventListener("click", () => {
+    appEL.classList.remove(appEL.classList[1]);
+    InitApp();
+  });
+  favoritBtnEl.addEventListener("click", () => {
+    pushNewCity(cityObj);
+  });
   getCurrentInfo(
     location.name,
     current.temp_c,
@@ -32,13 +42,7 @@ export async function renderDetailView(city) {
     currForecast.hour,
     forecast.forecastday[1].hour,
   );
-  backBtnEl.addEventListener("click", () => {
-    appEL.classList.remove(appEL.classList[1]);
-    InitApp();
-  });
-  favoritBtnEl.addEventListener("click", () => {
-    pushNewCity(city);
-  });
+
   forecastThreeDays(forecast.forecastday);
   getAdditionalInfo(
     current.chance_of_rain,

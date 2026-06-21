@@ -11,6 +11,7 @@ import {
   setBackgroundImg,
 } from "./detailview";
 import { checkExist, deleteCity, fillSearch } from "./utility";
+let newCityObj;
 
 export async function InitApp() {
   const appContainerEl = document.querySelector(".app");
@@ -23,21 +24,23 @@ export async function InitApp() {
 
   loadingSpinner(cityContainerEl, "Lade daten für Übersicht...");
   await new Promise((resolve) => setTimeout(resolve, 100));
-  const cityArr = getLocalStorage();
+  const newCityObj = getLocalStorage();
+
   try {
     cityContainerEl.innerHTML = "";
 
-    await renderCityCards(cityArr);
+    await renderCityCards(newCityObj);
   } catch (error) {
     // console.error("Error: " + error);
   } finally {
-    applyListeners();
+    applyListeners(newCityObj);
   }
 }
 
-export async function renderCityCards(cityArr) {
-  for (const city of cityArr) {
-    const wetherData = await getWetherData(city, 1);
+export async function renderCityCards(cityObj) {
+  for (const city of cityObj) {
+    const { cityNames, id, days } = city;
+    const wetherData = await getWetherData(id, days);
     const { current, forecast, location } = wetherData;
 
     const currforecast = forecast.forecastday[0].day;
@@ -131,15 +134,14 @@ function getCityCard(
 
 // Render Detailview on click
 
-function applyListeners(city) {
+function applyListeners(cityObj) {
   const cardElments = document.querySelectorAll(".city-card");
-
-  cardElments.forEach((card) => {
+  cardElments.forEach((card, index) => {
     backgroundCards(card);
     card.addEventListener("click", () => {
       const city = card.getAttribute("data-city");
-
-      renderDetailView(city);
+      console.log(cityObj);
+      renderDetailView(cityObj[index]);
     });
   });
 
@@ -174,11 +176,17 @@ function applyListeners(city) {
       console.log("Ausgewählte Stadt HTML:", sugestion.innerHTML);
       inputCity.value = sugestion.innerHTML;
       inputCity.focus();
+      newCityObj = {
+        name: sugestion.innerHTML,
+        id: sugestion.getAttribute("data-cityId"),
+        days: 3,
+      };
     }
   });
   inputCity.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-      renderDetailView(inputCity.value);
+      // renderDetailView(newCityObj[0].name);
+      renderDetailView(newCityObj);
     }
   });
 

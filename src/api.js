@@ -1,13 +1,13 @@
 const LOCAL_STORAGE_KEY = "CityArray";
 
-export async function getWetherData(city, days = 3) {
+export async function getWetherData(id, days = 3) {
   try {
     const response = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=86a979bdd40a47c6b58140058260806&q=${city}&days=${days}&lang=de`,
+      `https://api.weatherapi.com/v1/forecast.json?key=86a979bdd40a47c6b58140058260806&q=id:${id}&days=${days}&lang=de`,
     );
     if (!response.ok) throw new Error("Netzwerk-Antwort war nicht ok");
     const WetherDataCurrent = await response.json();
-    console.log(WetherDataCurrent);
+
     return WetherDataCurrent;
   } catch (error) {
     console.error(error);

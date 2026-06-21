@@ -1,12 +1,11 @@
 import { getLocalStorage, serchApi, setLocalStorage } from "./api";
 import { renderDetailView } from "./detailview";
 
-export function checkExist(cityInput) {
-  const newCityArr = getLocalStorage();
+export function checkExist(cityObj) {
+  const { id } = cityObj;
+  const cityObjArr = getLocalStorage();
 
-  const exist = newCityArr.some(
-    (city) => city.toUpperCase() === cityInput.toUpperCase(),
-  );
+  const exist = cityObjArr.some((city) => city.id === id);
 
   const favoritBtnEl = document.querySelector(".btn--favorit");
 
@@ -14,12 +13,12 @@ export function checkExist(cityInput) {
     ? favoritBtnEl.classList.add("hidden")
     : favoritBtnEl.classList.remove("hidden");
 }
-export function pushNewCity(newCity) {
+export function pushNewCity(cityObj) {
   const favoritBtnEl = document.querySelector(".btn--favorit");
-  let newCityArr = getLocalStorage();
-
-  newCityArr.push(newCity);
-  setLocalStorage(newCityArr);
+  let cityObjArr = getLocalStorage();
+  cityObjArr.push(cityObj);
+  setLocalStorage(cityObjArr);
+  console.log(cityObjArr);
   favoritBtnEl.classList.add("hidden");
 }
 
@@ -30,7 +29,7 @@ export function deleteCity(index) {
 
   const cityToDel = CityCardsEl[index].getAttribute("data-city");
 
-  const result = cityArray.filter(
+  const result = cityArray.name.filter(
     (city) => city.toUpperCase() !== cityToDel.toLocaleUpperCase(),
   );
 
@@ -45,7 +44,7 @@ export async function fillSearch(input) {
 
   citySearch.forEach((element) => {
     html += `
-      <li class="city-search__value" >${element.name}</li>
+      <li class="city-search__value" data-cityId="${element.id}" >${element.name}</li>
   `;
   });
   inputCity.innerHTML = html;
