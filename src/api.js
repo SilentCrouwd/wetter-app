@@ -28,8 +28,13 @@ export function setLocalStorage(insertedArray) {
 }
 
 export async function serchApi(input) {
-  const response = await fetch(`${API_ROOT}/search.json?${API_KEY}&q=${input}`);
-  const searchCity = await response.json();
-
-  return searchCity;
+  try {
+    const response = await fetch(
+      `${API_ROOT}/search.json?${API_KEY}&q=${input}`,
+    );
+    const searchCity = await response.json();
+    return searchCity;
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -1,9 +1,9 @@
-import { getLocalStorage, getWetherData, setLocalStorage } from "./api";
+import { getWetherData } from "./api";
 import { InitApp } from "./mainscreen";
 import { checkExist, pushNewCity } from "./utility";
 
 export async function renderDetailView(cityObj) {
-  const { name, id, days } = cityObj;
+  const { name, id } = cityObj;
 
   const appEL = document.querySelector(".app");
 
@@ -127,9 +127,7 @@ function getAppContent() {
 function getCurrentInfo(cityName, temp, currCondition, maxTemp, minTemp) {
   const currInfoContainer = document.querySelector(".main__current-info");
 
-  let html = "";
-
-  html = `
+  const html = `
 
           <p class="current-info__city-name">${cityName}</p>
           <p class="current-info__temperature">
@@ -179,7 +177,7 @@ function getDailyForecast(condition, maxWind, forecastHour, NextDayHour) {
 
 export function setBackgroundImg(condition, isDay, currElm) {
   const formatedCondition = condition.toLowerCase();
-  const appContainerEL = document.querySelector(".app");
+
   const dayTime = isDay === 1;
   if (
     formatedCondition.includes("bewölkt") ||

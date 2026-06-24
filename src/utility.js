@@ -1,5 +1,4 @@
 import { getLocalStorage, serchApi, setLocalStorage } from "./api";
-import { renderDetailView } from "./detailview";
 
 export function checkExist(cityObj) {
   const { id } = cityObj;

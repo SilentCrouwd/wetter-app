@@ -1,16 +1,10 @@
-import { render } from "sass";
-import {
-  getLocalStorage,
-  getWetherData,
-  serchApi,
-  setLocalStorage,
-} from "./api";
+import { getLocalStorage, getWetherData } from "./api";
 import {
   loadingSpinner,
   renderDetailView,
   setBackgroundImg,
 } from "./detailview";
-import { checkExist, deleteCity, fillSearch } from "./utility";
+import { deleteCity, fillSearch } from "./utility";
 let newCityObj;
 
 export async function InitApp() {
@@ -39,7 +33,7 @@ export async function InitApp() {
 
 export async function renderCityCards(cityObj) {
   for (const city of cityObj) {
-    const { cityNames, id, days } = city;
+    const { id, days } = city;
     const wetherData = await getWetherData(id, days);
     const { current, forecast, location } = wetherData;
 
@@ -139,8 +133,6 @@ function applyListeners(cityObj) {
   cardElments.forEach((card, index) => {
     backgroundCards(card);
     card.addEventListener("click", () => {
-      const city = card.getAttribute("data-city");
-
       renderDetailView(cityObj[index]);
     });
   });
@@ -165,7 +157,7 @@ function applyListeners(cityObj) {
       const newCity = inputCity.value;
       timeoutId = setTimeout(() => {
         fillSearch(newCity);
-      }, 1500);
+      }, 500);
     }
   });
 
@@ -180,12 +172,6 @@ function applyListeners(cityObj) {
         id: sugestion.getAttribute("data-cityId"),
         days: 3,
       };
-      renderDetailView(newCityObj);
-    }
-  });
-  inputCity.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      // renderDetailView(newCityObj[0].name);
       renderDetailView(newCityObj);
     }
   });
@@ -226,8 +212,3 @@ function backgroundCards(elm) {
   const isDay = Number(conditionElm.getAttribute("data-isDay"));
   setBackgroundImg(conditionElm.innerHTML, isDay, elm);
 }
-
-//serch andere api /serch https://api.weatherapi.com/v1/fsearch.json?key=86a979bdd40a47c6b58140058260806&q=salz
-// liste soll beim raus klicken verschwinden im input wenn wieder rein dann wider angezeigt
-//Stadt über Id einlesen nicht mehr über Namen
-//debouncing warten bis fertig mit tippen
