@@ -180,6 +180,7 @@ function applyListeners(cityObj) {
         id: sugestion.getAttribute("data-cityId"),
         days: 3,
       };
+      renderDetailView(newCityObj);
     }
   });
   inputCity.addEventListener("keydown", (e) => {
